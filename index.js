@@ -10,6 +10,7 @@ const contrib = require("blessed-contrib")
 const format = require("date-format")
 const pretty = require("pretty-ms")
 const airports = require("airports")
+var fs = require('fs');
 
 // Time constants
 const TIME_MS = 1
@@ -509,16 +510,19 @@ const fetch = () => {
           if (isTwilioConfigured) {
             sendTextMessage(message)
           }
+          fs.appendFile(filename, "!!!!! "+message+'\n', function (err) {});
         }
-
+        var message = `Lowest fares for an outbound flight is currently ${formatPrice([lowestOutboundFare, outboundFareDiffString].filter(i => i).join(" "))}`;
         dashboard.log([
-          `Lowest fares for an outbound flight is currently ${formatPrice([lowestOutboundFare, outboundFareDiffString].filter(i => i).join(" "))}`,
+          message
         ])
-
+        fs.appendFile(filename, message+'\n', function (err) {});
         if (!isOneWay) {
+          var messageRe =  `Lowest fares for a return flight is currently ${formatPrice([lowestReturnFare, returnFareDiffString].filter(i => i).join(" "))}`;
           dashboard.log([
-            `Lowest fares for a return flight is currently ${formatPrice([lowestReturnFare, returnFareDiffString].filter(i => i).join(" "))}`
+            messageRe
           ])
+          fs.appendFile(filename, messageRe+'\n', function (err) {});
         }
 
         dashboard.plot({
@@ -544,8 +548,7 @@ airports.forEach((airport) => {
       break
   }
 })
-
-dashboard.settings([
+var settings = [
   `Origin airport: ${originAirport}`,
   `Destination airport: ${destinationAirport}`,
   `Outbound date: ${outboundDateString}`,
@@ -559,6 +562,11 @@ dashboard.settings([
   !isOneWay && `Individual deal price: ${individualDealPrice ? `<= ${formatPrice(individualDealPrice)}` : "disabled"}`,
   `Total deal price: ${totalDealPrice ? `<= ${formatPrice(totalDealPrice)}` : "disabled"}`,
   `SMS alerts: ${isTwilioConfigured ? process.env.TWILIO_PHONE_TO : "disabled"}`
-].filter(s => s))
-
+];
+dashboard.settings(settings.filter(s => s))
+var now = Date.now();
+var filename = originAirport+'-'+destinationAirport+'_'+now+'.txt';
+for(var i in settings){
+fs.appendFileSync(filename, settings[i]+'\n');
+}
 fetch()
