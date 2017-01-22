@@ -11,6 +11,7 @@ const format = require("date-format")
 const pretty = require("pretty-ms")
 const airports = require("airports")
 var fs = require('fs');
+var moment = require('moment');
 
 // Time constants
 const TIME_MS = 1
@@ -500,7 +501,7 @@ const fetch = () => {
         )
 
         if (awesomeDealIsAwesome) {
-          const message = `Deal alert! Combined total has hit ${formatPrice(lowestOutboundFare + lowestReturnFare)}. Individual fares are ${formatPrice(lowestOutboundFare)} (outbound) and ${formatPrice(lowestReturnFare)} (return).`
+          const message = moment().format('MMM DD, HH:mm')+` Deal alert! Combined total has hit ${formatPrice(lowestOutboundFare + lowestReturnFare)}. Individual fares are ${formatPrice(lowestOutboundFare)} (outbound) and ${formatPrice(lowestReturnFare)} (return).`
 
           // Party time
           dashboard.log([
@@ -512,13 +513,13 @@ const fetch = () => {
           }
           fs.appendFile(filename, "!!!!! "+message+'\n', function (err) {});
         }
-        var message = `Lowest fares for an outbound flight is currently ${formatPrice([lowestOutboundFare, outboundFareDiffString].filter(i => i).join(" "))}`;
+        var message = moment().format('MMM DD, HH:mm')+` Lowest fares for an outbound flight is currently ${formatPrice([lowestOutboundFare, outboundFareDiffString].filter(i => i).join(" "))}`;
         dashboard.log([
           message
         ])
         fs.appendFile(filename, message+'\n', function (err) {});
         if (!isOneWay) {
-          var messageRe =  `Lowest fares for a return flight is currently ${formatPrice([lowestReturnFare, returnFareDiffString].filter(i => i).join(" "))}`;
+          var messageRe =  moment().format('MMM DD, HH:mm')+` Lowest fares for a return flight is currently ${formatPrice([lowestReturnFare, returnFareDiffString].filter(i => i).join(" "))}`;
           dashboard.log([
             messageRe
           ])

@@ -1,0 +1,21 @@
+Origin airport: DAL
+Destination airport: MHT
+Outbound date: 05/27/2017
+Outbound time: anytime
+Return date: 06/05/2017
+Return time: anytime
+Trip type: two-way
+Fare type: dollars
+Passengers: 1
+Interval: 1m
+Individual deal price: disabled
+Total deal price: disabled
+SMS alerts: disabled
+Jan 22, 16:43 Lowest fares for an outbound flight is currently $175
+Jan 22, 16:43 Lowest fares for a return flight is currently $137
+Jan 22, 16:44 Lowest fares for an outbound flight is currently $175 [34m(no change)[39m
+Jan 22, 16:44 Lowest fares for a return flight is currently $137 [34m(no change)[39m
+Jan 22, 16:45 Lowest fares for an outbound flight is currently $175 [34m(no change)[39m
+Jan 22, 16:45 Lowest fares for a return flight is currently $137 [34m(no change)[39m
+Jan 22, 16:46 Lowest fares for an outbound flight is currently $175 [34m(no change)[39m
+Jan 22, 16:46 Lowest fares for a return flight is currently $137 [34m(no change)[39m
